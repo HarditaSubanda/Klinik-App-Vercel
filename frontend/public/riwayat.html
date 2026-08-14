@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Riwayat Pendaftaran - Talha Medical Clinic</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        tailwind.config = { theme: { extend: { colors: { k_red: '#B91C1C' } } } }
+    </script>
+</head>
+<body class="bg-gray-50 font-sans">
+
+<div id="app-header"></div>
+
+<div class="container mx-auto px-6 py-10 max-w-2xl">
+    <div class="bg-white rounded-xl shadow-xl overflow-hidden">
+        <div class="bg-k_red p-4 text-white text-center">
+            <h2 class="text-2xl font-bold">Riwayat Pendaftaran</h2>
+        </div>
+
+        <form id="riwayat-form" class="p-8 pb-4 flex gap-3 items-end">
+            <div class="flex-1">
+                <label class="block text-gray-700 font-bold mb-2">Nomor HP/WA yang dipakai saat mendaftar</label>
+                <input type="text" name="noHp" required placeholder="08xxxxxxxxxx"
+                    class="w-full border rounded-lg px-4 py-2 focus:outline-none focus:border-k_red">
+            </div>
+            <button type="submit" id="riwayat-btn" class="bg-k_red text-white font-bold px-6 py-2 rounded-lg hover:bg-red-800 transition disabled:opacity-50">
+                Cari
+            </button>
+        </form>
+
+        <div id="riwayat-list" class="px-8 pb-8 space-y-3"></div>
+    </div>
+</div>
+
+<div id="app-footer"></div>
+
+<script src="/assets/js/config.js"></script>
+<script src="/assets/js/api.js"></script>
+<script src="/assets/js/components/layout.js"></script>
+<script src="/assets/js/riwayat.js"></script>
+</body>
+</html>

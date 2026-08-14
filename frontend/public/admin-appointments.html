@@ -1,0 +1,93 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Manajemen Appointment - Talha Medical Clinic</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        tailwind.config = { theme: { extend: { colors: { k_red: '#B91C1C' } } } }
+    </script>
+    <script>
+        if (!localStorage.getItem('klinik_admin_token')) {
+            window.location.href = '/login.html';
+        }
+    </script>
+</head>
+<body class="bg-gray-50 font-sans">
+
+<div id="app-header"></div>
+
+<div class="container mx-auto px-6 py-10">
+    <div class="flex flex-wrap justify-between items-center mb-6 gap-4">
+        <h2 class="text-3xl font-bold text-gray-800 border-l-4 border-k_red pl-4">Manajemen Appointment</h2>
+        <div class="text-gray-600">Halo, <span id="admin-name" class="font-bold">...</span></div>
+    </div>
+
+    <div id="admin-subnav"></div>
+
+    <!-- Filter & Pencarian (Fitur 11) -->
+    <div class="bg-white rounded-lg shadow p-4 mb-6 flex flex-wrap gap-3 items-end">
+        <div>
+            <label class="block text-xs font-bold text-gray-600 mb-1">Cari</label>
+            <input id="filter-search" type="text" placeholder="Nama / No HP / NIK / Kode" class="border rounded-lg px-3 py-2 text-sm">
+        </div>
+        <div>
+            <label class="block text-xs font-bold text-gray-600 mb-1">Status</label>
+            <select id="filter-status" class="border rounded-lg px-3 py-2 text-sm">
+                <option value="">Semua</option>
+                <option value="Menunggu">Menunggu</option>
+                <option value="Dikonfirmasi">Dikonfirmasi</option>
+                <option value="Selesai">Selesai</option>
+                <option value="Dibatalkan">Dibatalkan</option>
+            </select>
+        </div>
+        <div>
+            <label class="block text-xs font-bold text-gray-600 mb-1">Poli</label>
+            <select id="filter-poli" class="border rounded-lg px-3 py-2 text-sm">
+                <option value="">Semua</option>
+                <option value="Umum">Umum</option>
+                <option value="Gigi">Gigi</option>
+                <option value="Anak">Anak</option>
+            </select>
+        </div>
+        <div>
+            <label class="block text-xs font-bold text-gray-600 mb-1">Tanggal</label>
+            <input id="filter-tanggal" type="date" class="border rounded-lg px-3 py-2 text-sm">
+        </div>
+        <button id="filter-apply" class="bg-k_red text-white text-sm font-bold px-4 py-2 rounded-lg hover:bg-red-800">Terapkan</button>
+        <button id="filter-reset" class="text-sm text-gray-500 hover:text-gray-700 px-2 py-2">Reset</button>
+    </div>
+
+    <div id="error-banner" class="hidden mb-4 bg-red-100 border border-red-400 text-red-800 rounded-lg px-4 py-3 text-sm"></div>
+
+    <div class="bg-white rounded-lg shadow-lg overflow-x-auto">
+        <table class="w-full text-left border-collapse">
+            <thead>
+                <tr class="bg-k_red text-white">
+                    <th class="p-4">Kode / Antrean</th>
+                    <th class="p-4">Tanggal & Jam</th>
+                    <th class="p-4">Nama Pasien</th>
+                    <th class="p-4">Poli & Dokter</th>
+                    <th class="p-4">Keluhan</th>
+                    <th class="p-4">Status</th>
+                    <th class="p-4">Aksi</th>
+                </tr>
+            </thead>
+            <tbody id="appointments-tbody" class="divide-y divide-gray-200">
+                <tr><td colspan="7" class="p-4 text-center text-gray-500">Memuat data...</td></tr>
+            </tbody>
+        </table>
+    </div>
+
+    <div id="pagination" class="flex justify-center items-center gap-3 mt-6"></div>
+</div>
+
+<div id="app-footer"></div>
+
+<script src="/assets/js/config.js"></script>
+<script src="/assets/js/api.js"></script>
+<script src="/assets/js/components/layout.js"></script>
+<script src="/assets/js/admin-appointments.js"></script>
+</body>
+</html>

@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Login Admin - Talha Medical Clinic</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        tailwind.config = { theme: { extend: { colors: { k_red: '#B91C1C' } } } }
+    </script>
+</head>
+<body class="bg-gray-50 font-sans">
+
+<div id="app-header"></div>
+
+<div class="flex items-center justify-center py-20 bg-gray-100 min-h-[70vh]">
+    <div class="bg-white p-8 rounded-lg shadow-lg w-96 border-t-4 border-k_red">
+        <h2 class="text-2xl font-bold mb-6 text-center text-gray-800">Login Admin</h2>
+
+        <div id="session-expired-banner" class="hidden mb-4 bg-amber-100 border border-amber-400 text-amber-800 rounded-lg px-4 py-2 text-sm">
+            Sesi login telah berakhir. Silakan login kembali.
+        </div>
+        <div id="login-error-banner" class="hidden mb-4 bg-red-100 border border-red-400 text-red-800 rounded-lg px-4 py-2 text-sm"></div>
+
+        <form id="login-form">
+            <div class="mb-4">
+                <label class="block text-gray-700 text-sm font-bold mb-2">Username</label>
+                <input type="text" name="username" required autocomplete="username" class="w-full border p-2 rounded focus:outline-none focus:border-k_red">
+            </div>
+            <div class="mb-6">
+                <label class="block text-gray-700 text-sm font-bold mb-2">Password</label>
+                <input type="password" name="password" required autocomplete="current-password" class="w-full border p-2 rounded focus:outline-none focus:border-k_red">
+            </div>
+            <button id="login-submit" type="submit" class="w-full bg-k_red text-white font-bold py-2 rounded hover:bg-red-800 disabled:opacity-50">
+                MASUK
+            </button>
+        </form>
+    </div>
+</div>
+
+<div id="app-footer"></div>
+
+<script src="/assets/js/config.js"></script>
+<script src="/assets/js/api.js"></script>
+<script src="/assets/js/components/layout.js"></script>
+<script src="/assets/js/login.js"></script>
+</body>
+</html>

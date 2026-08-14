@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Manajemen Antrean - Talha Medical Clinic</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        tailwind.config = { theme: { extend: { colors: { k_red: '#B91C1C' } } } }
+    </script>
+    <script>
+        if (!localStorage.getItem('klinik_admin_token')) {
+            window.location.href = '/login.html';
+        }
+    </script>
+</head>
+<body class="bg-gray-50 font-sans">
+
+<div id="app-header"></div>
+
+<div class="container mx-auto px-6 py-10">
+    <div class="flex flex-wrap justify-between items-center mb-6 gap-4">
+        <h2 class="text-3xl font-bold text-gray-800 border-l-4 border-k_red pl-4">Manajemen Antrean</h2>
+        <div class="flex items-center gap-3">
+            <input id="filter-tanggal" type="date" class="border rounded-lg px-3 py-2 text-sm">
+            <div class="text-gray-600">Halo, <span id="admin-name" class="font-bold">...</span></div>
+        </div>
+    </div>
+
+    <div id="admin-subnav"></div>
+
+    <div id="error-banner" class="hidden mb-4 bg-red-100 border border-red-400 text-red-800 rounded-lg px-4 py-3 text-sm"></div>
+    <div id="blocked-banner" class="hidden mb-4 bg-amber-100 border border-amber-400 text-amber-800 rounded-lg px-4 py-3 text-sm"></div>
+
+    <!-- Satu kartu per poli - setiap poli punya seri nomor antrean & tombol
+         "Panggil Berikutnya" sendiri-sendiri, tidak saling mempengaruhi. -->
+    <div id="poli-queue-sections" class="grid md:grid-cols-3 gap-6 mb-6">
+        <p class="col-span-3 text-center text-gray-500 py-6">Memuat data antrean...</p>
+    </div>
+
+    <div id="poli-queue-tables"></div>
+</div>
+
+<div id="app-footer"></div>
+
+<script src="/assets/js/config.js"></script>
+<script src="/assets/js/api.js"></script>
+<script src="/assets/js/queue-shared.js"></script>
+<script src="/assets/js/tts-antrean.js"></script>
+<script src="/assets/js/components/layout.js"></script>
+<script src="/assets/js/admin-antrean.js"></script>
+</body>
+</html>

@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Jadwal Dokter - Talha Medical Clinic</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        tailwind.config = { theme: { extend: { colors: { k_red: '#B91C1C' } } } }
+    </script>
+</head>
+<body class="bg-gray-50 font-sans">
+
+<div id="app-header"></div>
+
+<div class="container mx-auto px-6 py-10 max-w-3xl">
+    <h2 class="text-3xl font-bold text-gray-800 border-l-4 border-k_red pl-4 mb-6">Jadwal Dokter</h2>
+    <div id="jadwal-list" class="space-y-4">
+        <p class="text-center text-gray-500 py-8">Memuat jadwal dokter...</p>
+    </div>
+</div>
+
+<div id="app-footer"></div>
+
+<script src="/assets/js/config.js"></script>
+<script src="/assets/js/api.js"></script>
+<script src="/assets/js/components/layout.js"></script>
+<script src="/assets/js/jadwal-dokter.js"></script>
+</body>
+</html>

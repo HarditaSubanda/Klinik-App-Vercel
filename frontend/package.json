@@ -1,0 +1,14 @@
+{
+  "name": "klinik-frontend",
+  "version": "2.0.0",
+  "description": "Frontend statis (HTML/CSS/JS) untuk Sistem Informasi Klinik, terpisah dari backend API",
+  "main": "dev-server.js",
+  "scripts": {
+    "start": "node dev-server.js",
+    "dev": "node dev-server.js",
+    "build": "echo 'Frontend statis - tidak ada proses build, berkas sudah tersedia di public/'"
+  },
+  "dependencies": {
+    "express": "^4.21.2"
+  }
+}

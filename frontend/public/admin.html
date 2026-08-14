@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dashboard Admin - Talha Medical Clinic</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        tailwind.config = { theme: { extend: { colors: { k_red: '#B91C1C' } } } }
+    </script>
+    <script>
+        // Guard sederhana: kalau belum ada token, langsung lempar ke login
+        // sebelum konten dashboard sempat dirender (mencegah "kedip" data).
+        if (!localStorage.getItem('klinik_admin_token')) {
+            window.location.href = '/login.html';
+        }
+    </script>
+</head>
+<body class="bg-gray-50 font-sans">
+
+<div id="app-header"></div>
+
+<div class="container mx-auto px-6 py-10">
+    <div class="flex flex-wrap justify-between items-center mb-6 gap-4">
+        <h2 class="text-3xl font-bold text-gray-800 border-l-4 border-k_red pl-4">Dashboard Admin</h2>
+        <div class="text-gray-600">Halo, <span id="admin-name" class="font-bold">...</span></div>
+    </div>
+
+    <div id="admin-subnav"></div>
+
+    <div id="error-banner" class="hidden mb-4 bg-red-100 border border-red-400 text-red-800 rounded-lg px-4 py-3 text-sm"></div>
+
+    <!-- Statistik (Fitur 10) -->
+    <div class="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-6 gap-4 mb-8" id="stats-grid">
+        <div class="bg-white rounded-lg shadow p-4 text-center">
+            <p class="text-3xl font-bold text-gray-800" id="stat-total">-</p>
+            <p class="text-xs text-gray-500 mt-1">Pendaftaran Hari Ini</p>
+        </div>
+        <div class="bg-white rounded-lg shadow p-4 text-center border-t-4 border-yellow-400">
+            <p class="text-3xl font-bold text-yellow-600" id="stat-menunggu">-</p>
+            <p class="text-xs text-gray-500 mt-1">Menunggu Konfirmasi</p>
+        </div>
+        <div class="bg-white rounded-lg shadow p-4 text-center border-t-4 border-blue-400">
+            <p class="text-3xl font-bold text-blue-600" id="stat-dikonfirmasi">-</p>
+            <p class="text-xs text-gray-500 mt-1">Dikonfirmasi</p>
+        </div>
+        <div class="bg-white rounded-lg shadow p-4 text-center border-t-4 border-indigo-400">
+            <p class="text-3xl font-bold text-indigo-600" id="stat-sedang-dilayani">-</p>
+            <p class="text-xs text-gray-500 mt-1">Sedang Dilayani</p>
+        </div>
+        <div class="bg-white rounded-lg shadow p-4 text-center border-t-4 border-green-400">
+            <p class="text-3xl font-bold text-green-600" id="stat-selesai">-</p>
+            <p class="text-xs text-gray-500 mt-1">Selesai</p>
+        </div>
+        <div class="bg-white rounded-lg shadow p-4 text-center border-t-4 border-red-400">
+            <p class="text-3xl font-bold text-red-600" id="stat-dibatalkan">-</p>
+            <p class="text-xs text-gray-500 mt-1">Dibatalkan</p>
+        </div>
+    </div>
+
+    <div class="grid md:grid-cols-3 gap-6">
+        <div class="bg-white rounded-lg shadow-lg p-5">
+            <h3 class="font-bold text-gray-800 mb-3 flex justify-between items-center">
+                Appointment Terbaru
+                <a href="/admin-appointments.html" class="text-xs text-k_red font-normal hover:underline">Lihat semua →</a>
+            </h3>
+            <div id="list-terbaru" class="space-y-2 text-sm"></div>
+        </div>
+        <div class="bg-white rounded-lg shadow-lg p-5">
+            <h3 class="font-bold text-gray-800 mb-3 flex justify-between items-center">
+                Antrean Aktif Hari Ini
+                <a href="/admin-antrean.html" class="text-xs text-k_red font-normal hover:underline">Kelola →</a>
+            </h3>
+            <div id="list-antrean" class="space-y-2 text-sm"></div>
+        </div>
+        <div class="bg-white rounded-lg shadow-lg p-5">
+            <h3 class="font-bold text-gray-800 mb-3">Menunggu Konfirmasi</h3>
+            <div id="list-menunggu" class="space-y-2 text-sm"></div>
+        </div>
+    </div>
+</div>
+
+<div id="app-footer"></div>
+
+<script src="/assets/js/config.js"></script>
+<script src="/assets/js/api.js"></script>
+<script src="/assets/js/components/layout.js"></script>
+<script src="/assets/js/admin-dashboard.js"></script>
+</body>
+</html>

@@ -1,0 +1,167 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Talha Medical Clinic</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        k_gold: '#D97706',
+                        k_emerald: '#059669',
+                        k_rose: '#E11D48',
+                        k_cream: '#FEF3C7',
+                        k_red: '#B91C1C'
+                    }
+                }
+            }
+        }
+    </script>
+    <style>
+        @keyframes shimmer { 0% { background-position: -1000px 0; } 100% { background-position: 1000px 0; } }
+        .shimmer { background: linear-gradient(90deg, transparent, rgba(255,255,255,0.3), transparent); background-size: 1000px 100%; animation: shimmer 3s infinite; }
+    </style>
+</head>
+<body class="bg-gray-50 font-sans">
+
+<div id="app-header"></div>
+
+<div class="relative bg-gradient-to-br from-amber-50 via-white to-emerald-50 text-gray-800 py-20 overflow-hidden">
+    <div class="absolute inset-0 opacity-5">
+        <svg class="w-full h-full" xmlns="http://www.w3.org/2000/svg">
+            <defs>
+                <pattern id="islamic-pattern" x="0" y="0" width="100" height="100" patternUnits="userSpaceOnUse">
+                    <path d="M50,10 Q60,30 50,50 Q40,30 50,10 M50,50 Q60,70 50,90 Q40,70 50,50"
+                          fill="none" stroke="currentColor" stroke-width="2" class="text-amber-600"/>
+                    <circle cx="50" cy="50" r="3" fill="currentColor" class="text-amber-600"/>
+                </pattern>
+            </defs>
+            <rect width="100%" height="100%" fill="url(#islamic-pattern)"/>
+        </svg>
+    </div>
+
+    <div class="absolute top-0 left-1/2 transform -translate-x-1/2 -translate-y-1/2">
+        <svg width="300" height="200" viewBox="0 0 300 200" class="opacity-20">
+            <path d="M50,150 Q50,50 150,20 Q250,50 250,150" fill="none" stroke="#D97706" stroke-width="8" stroke-linecap="round"/>
+            <path d="M70,150 Q70,70 150,45 Q230,70 230,150" fill="none" stroke="#D97706" stroke-width="8" stroke-linecap="round"/>
+            <path d="M90,150 Q90,90 150,70 Q210,90 210,150" fill="none" stroke="#D97706" stroke-width="8" stroke-linecap="round"/>
+        </svg>
+    </div>
+
+    <div class="container mx-auto px-6 text-center relative z-10">
+        <div class="mb-6 flex justify-center">
+            <svg width="80" height="80" viewBox="0 0 100 100" class="animate-pulse">
+                <path d="M30,80 Q30,30 50,10 Q70,30 70,80" fill="none" stroke="#D97706" stroke-width="5" stroke-linecap="round"/>
+                <path d="M40,80 Q40,40 50,25 Q60,40 60,80" fill="none" stroke="#D97706" stroke-width="5" stroke-linecap="round"/>
+                <circle cx="50" cy="15" r="4" fill="#D97706"/>
+            </svg>
+        </div>
+
+        <h1 class="text-4xl md:text-5xl font-bold mb-4 bg-gradient-to-r from-amber-600 via-amber-500 to-yellow-600 bg-clip-text text-transparent">
+            Layanan Kesehatan Terpercaya untuk Indonesia
+        </h1>
+        <p class="text-xl mb-8 text-gray-700">Daftar antrian dokter secara online, cepat, dan mudah.</p>
+
+        <a href="/booking.html" class="inline-block bg-gradient-to-r from-amber-500 to-amber-600 text-white px-8 py-3 rounded-full font-bold text-lg hover:from-amber-600 hover:to-amber-700 shadow-lg transition transform hover:scale-105 border-2 border-amber-400">
+            <span class="flex items-center gap-2">
+                <svg width="20" height="20" viewBox="0 0 20 20" fill="currentColor">
+                    <path d="M10,2 L10,10 L15,10 M10,10 A8,8 0 1,1 10,2"/>
+                </svg>
+                Buat Janji Sekarang
+            </span>
+        </a>
+    </div>
+
+    <div class="absolute bottom-0 left-0 right-0">
+        <svg viewBox="0 0 1200 120" class="w-full h-16 md:h-24">
+            <path d="M0,60 Q300,100 600,60 T1200,60 L1200,120 L0,120 Z" fill="white" opacity="0.8"/>
+        </svg>
+    </div>
+</div>
+
+<div class="container mx-auto px-6 pt-10 md:pt-12">
+    <div id="live-queue-card" class="max-w-3xl mx-auto bg-white rounded-2xl shadow-xl overflow-hidden">
+        <div class="bg-k_red px-6 py-4 flex items-center justify-between gap-3 flex-wrap">
+            <h2 class="text-white font-bold text-lg flex items-center gap-2">
+                <span class="relative flex h-3 w-3">
+                    <span class="animate-ping absolute inline-flex h-full w-full rounded-full bg-white opacity-75"></span>
+                    <span class="relative inline-flex rounded-full h-3 w-3 bg-white"></span>
+                </span>
+                Antrean Saat Ini
+            </h2>
+            <div class="flex items-center gap-2 flex-wrap justify-end">
+                <button id="live-queue-sound-toggle" type="button" class="text-xs font-semibold text-white bg-white bg-opacity-20 hover:bg-opacity-30 px-3 py-1.5 rounded-full transition">
+                    🔈 Aktifkan Suara Panggilan
+                </button>
+                <a href="/antrean.html" class="text-sm font-semibold text-white hover:underline">Cek nomor antrean saya &rarr;</a>
+            </div>
+        </div>
+        <div id="live-queue-list" class="divide-y divide-gray-100">
+            <p class="p-6 text-center text-sm text-gray-400">Memuat data antrean...</p>
+        </div>
+        <p id="live-queue-status" class="px-6 pb-4 pt-2 text-xs text-gray-400 text-center border-t border-gray-100">Memuat data antrean...</p>
+    </div>
+</div>
+
+<div class="container mx-auto px-6 py-16">
+    <div class="text-center mb-12">
+        <h2 class="text-3xl md:text-4xl font-bold text-gray-800 mb-3">Layanan Kami</h2>
+        <div class="w-24 h-1 bg-gradient-to-r from-amber-500 to-amber-600 mx-auto rounded-full"></div>
+    </div>
+
+    <div class="grid md:grid-cols-3 gap-8">
+        <div class="group bg-white p-8 rounded-2xl shadow-lg hover:shadow-2xl transition-all duration-300 border-t-4 border-amber-500 relative overflow-hidden">
+            <div class="w-16 h-16 bg-gradient-to-br from-amber-100 to-amber-200 rounded-full flex items-center justify-center mb-4 group-hover:scale-110 transition-transform">
+                <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="#D97706" stroke-width="2">
+                    <path d="M12 2L2 7v10c0 5.55 3.84 10.74 9 12 5.16-1.26 9-6.45 9-12V7l-10-5z"/>
+                    <path d="M12 8v8M8 12h8"/>
+                </svg>
+            </div>
+            <h3 class="text-2xl font-bold mb-3 text-gray-800">Poli Umum</h3>
+            <p class="text-gray-600 leading-relaxed">Pelayanan kesehatan dasar dengan dokter berpengalaman.</p>
+            <div class="mt-4 pt-4 border-t border-amber-100">
+                <span class="text-amber-600 font-semibold text-sm">Konsultasi Profesional</span>
+            </div>
+        </div>
+
+        <div class="group bg-white p-8 rounded-2xl shadow-lg hover:shadow-2xl transition-all duration-300 border-t-4 border-emerald-500 relative overflow-hidden">
+            <div class="w-16 h-16 bg-gradient-to-br from-emerald-100 to-emerald-200 rounded-full flex items-center justify-center mb-4 group-hover:scale-110 transition-transform">
+                <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="#059669" stroke-width="2">
+                    <path d="M12 2C9.5 2 7 3.5 7 6c0 2 1.5 3.5 3 4.5V14c0 1-1 2-2 3s-2 2.5-2 4h8c0-1.5-1-3-2-4s-2-2-2-3v-3.5c1.5-1 3-2.5 3-4.5 0-2.5-2.5-4-5-4z"/>
+                </svg>
+            </div>
+            <h3 class="text-2xl font-bold mb-3 text-gray-800">Poli Gigi</h3>
+            <p class="text-gray-600 leading-relaxed">Perawatan kesehatan gigi dan mulut terbaik.</p>
+            <div class="mt-4 pt-4 border-t border-emerald-100">
+                <span class="text-emerald-600 font-semibold text-sm">Perawatan Lengkap</span>
+            </div>
+        </div>
+
+        <div class="group bg-white p-8 rounded-2xl shadow-lg hover:shadow-2xl transition-all duration-300 border-t-4 border-rose-500 relative overflow-hidden">
+            <div class="w-16 h-16 bg-gradient-to-br from-rose-100 to-rose-200 rounded-full flex items-center justify-center mb-4 group-hover:scale-110 transition-transform">
+                <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="#E11D48" stroke-width="2">
+                    <path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"/>
+                </svg>
+            </div>
+            <h3 class="text-2xl font-bold mb-3 text-gray-800">Ibu & Anak</h3>
+            <p class="text-gray-600 leading-relaxed">Layanan prioritas untuk kesehatan ibu dan tumbuh kembang anak.</p>
+            <div class="mt-4 pt-4 border-t border-rose-100">
+                <span class="text-rose-600 font-semibold text-sm">Perawatan Spesial</span>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div id="app-footer"></div>
+
+<script src="/assets/js/config.js"></script>
+<script src="/assets/js/api.js"></script>
+<script src="/assets/js/queue-shared.js"></script>
+<script src="/assets/js/tts-antrean.js"></script>
+<script src="/assets/js/components/layout.js"></script>
+<script src="/assets/js/home-queue.js"></script>
+</body>
+</html>

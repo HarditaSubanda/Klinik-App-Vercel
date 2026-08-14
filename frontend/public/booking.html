@@ -1,0 +1,159 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Daftar Berobat - Talha Medical Clinic</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        tailwind.config = { theme: { extend: { colors: { k_red: '#B91C1C' } } } }
+    </script>
+    <style>
+        /* Bukti pendaftaran hanya tampil saat dicetak (Fitur 1: window.print()) */
+        #print-area { display: none; }
+        @media print {
+            body * { visibility: hidden; }
+            #print-area, #print-area * { visibility: visible; }
+            #print-area { display: block; position: absolute; top: 0; left: 0; width: 100%; padding: 24px; }
+        }
+    </style>
+</head>
+<body class="bg-gray-50 font-sans">
+
+<div id="app-header"></div>
+
+<div class="container mx-auto px-6 py-10 max-w-2xl">
+
+    <!-- Form pendaftaran -->
+    <div id="form-card" class="bg-white rounded-xl shadow-xl overflow-hidden">
+        <div class="bg-k_red p-4 text-white text-center">
+            <h2 class="text-2xl font-bold">Formulir Pendaftaran Online</h2>
+        </div>
+
+        <div id="error-banner" class="hidden mx-8 mt-6 bg-red-100 border border-red-400 text-red-800 rounded-lg px-4 py-3 items-start gap-3">
+            <p class="font-bold">Jadwal Tidak Tersedia</p>
+            <p id="error-message" class="text-sm mt-1"></p>
+        </div>
+
+        <form id="booking-form" class="p-8 space-y-4">
+            <div class="grid grid-cols-2 gap-4">
+                <div>
+                    <label class="block text-gray-700 font-bold mb-2">Nama Lengkap</label>
+                    <input type="text" name="namaPasien" required minlength="3" maxlength="100"
+                        class="w-full border rounded-lg px-4 py-2 focus:outline-none focus:border-k_red">
+                </div>
+                <div>
+                    <label class="block text-gray-700 font-bold mb-2">NIK (16 digit)</label>
+                    <input type="text" name="nik" required pattern="\d{16}" maxlength="16" inputmode="numeric"
+                        title="NIK harus 16 digit angka"
+                        class="w-full border rounded-lg px-4 py-2 focus:outline-none focus:border-k_red">
+                </div>
+            </div>
+
+            <div class="grid grid-cols-2 gap-4">
+                <div>
+                    <label class="block text-gray-700 font-bold mb-2">No. HP/WA</label>
+                    <input type="text" name="noHp" required placeholder="08xxxxxxxxxx"
+                        class="w-full border rounded-lg px-4 py-2 focus:outline-none focus:border-k_red">
+                </div>
+                <div>
+                    <label class="block text-gray-700 font-bold mb-2">Pilih Poli</label>
+                    <select name="poli" id="input-poli" class="w-full border rounded-lg px-4 py-2 focus:outline-none focus:border-k_red">
+                        <option value="Umum">Poli Umum</option>
+                        <option value="Gigi">Poli Gigi</option>
+                        <option value="Anak">Poli Ibu & Anak</option>
+                    </select>
+                </div>
+            </div>
+
+            <div class="grid grid-cols-2 gap-4">
+                <div>
+                    <label class="block text-gray-700 font-bold mb-2">Dokter</label>
+                    <select name="dokter" id="input-dokter" required class="w-full border rounded-lg px-4 py-2 focus:outline-none focus:border-k_red">
+                        <option value="">Memuat daftar dokter...</option>
+                    </select>
+                </div>
+                <div>
+                    <label class="block text-gray-700 font-bold mb-2">Tanggal</label>
+                    <input type="date" name="tanggal" required id="input-tanggal"
+                        class="w-full border rounded-lg px-4 py-2 focus:outline-none focus:border-k_red">
+                </div>
+            </div>
+
+            <div>
+                <label class="block text-gray-700 font-bold mb-2">Jam Periksa</label>
+                <select name="jam" id="input-jam" required class="w-full border rounded-lg px-4 py-2 focus:outline-none focus:border-k_red">
+                    <option value="">Pilih dokter & tanggal terlebih dahulu</option>
+                </select>
+                <p id="availability-hint" class="text-sm mt-1"></p>
+            </div>
+
+            <div>
+                <label class="block text-gray-700 font-bold mb-2">Keluhan (Opsional)</label>
+                <textarea name="keluhan" maxlength="500" class="w-full border rounded-lg px-4 py-2 focus:outline-none focus:border-k_red" rows="3"></textarea>
+            </div>
+
+            <button type="submit" id="submit-btn" class="w-full bg-k_red text-white font-bold py-3 rounded-lg hover:bg-red-800 transition disabled:opacity-50">
+                Kirim Pendaftaran
+            </button>
+        </form>
+    </div>
+
+    <!-- Tampil setelah pendaftaran berhasil (Fitur 1: Kode Pendaftaran) -->
+    <div id="success-card" class="hidden bg-white rounded-xl shadow-xl overflow-hidden">
+        <div class="bg-green-600 p-4 text-white text-center">
+            <h2 class="text-2xl font-bold">✔ Pendaftaran Berhasil</h2>
+        </div>
+        <div class="p-8">
+            <p class="text-gray-600 mb-4">Simpan kode pendaftaran ini untuk mengecek status, melihat antrean, atau membatalkan pendaftaran.</p>
+            <div class="bg-gray-50 border-2 border-dashed border-k_red rounded-lg p-6 text-center mb-6">
+                <p class="text-sm text-gray-500 mb-1">Kode Pendaftaran</p>
+                <p id="result-kode" class="text-3xl font-mono font-bold text-k_red tracking-wider"></p>
+            </div>
+            <dl class="grid grid-cols-2 gap-y-3 text-sm mb-6">
+                <dt class="text-gray-500">Nama Pasien</dt><dd id="result-nama" class="font-bold text-right"></dd>
+                <dt class="text-gray-500">Dokter</dt><dd id="result-dokter" class="font-bold text-right"></dd>
+                <dt class="text-gray-500">Poli</dt><dd id="result-poli" class="font-bold text-right"></dd>
+                <dt class="text-gray-500">Tanggal</dt><dd id="result-tanggal" class="font-bold text-right"></dd>
+                <dt class="text-gray-500">Jam</dt><dd id="result-jam" class="font-bold text-right"></dd>
+                <dt class="text-gray-500">Status</dt><dd id="result-status" class="font-bold text-right text-yellow-700"></dd>
+            </dl>
+            <div class="grid grid-cols-2 gap-3">
+                <button id="print-btn" class="bg-gray-700 text-white font-bold py-3 rounded-lg hover:bg-gray-800 transition">
+                    🖨 Cetak Bukti Pendaftaran
+                </button>
+                <a id="cek-status-link" href="/cek-pendaftaran.html" class="text-center bg-k_red text-white font-bold py-3 rounded-lg hover:bg-red-800 transition">
+                    Cek Status Pendaftaran
+                </a>
+            </div>
+            <button id="new-booking-btn" class="w-full mt-3 text-sm text-gray-500 hover:text-gray-700 underline">
+                Buat pendaftaran baru
+            </button>
+        </div>
+    </div>
+</div>
+
+<!-- Area khusus cetak (window.print()) -->
+<div id="print-area">
+    <h2 style="font-size:20px;font-weight:bold;text-align:center;">BUKTI PENDAFTARAN</h2>
+    <h3 style="font-size:16px;text-align:center;margin-bottom:16px;">Talha Medical Clinic</h3>
+    <table style="width:100%;border-collapse:collapse;font-size:14px;">
+        <tr><td style="padding:6px 0;color:#555;">Kode Pendaftaran</td><td style="padding:6px 0;font-weight:bold;" id="print-kode"></td></tr>
+        <tr><td style="padding:6px 0;color:#555;">Nama Pasien</td><td style="padding:6px 0;font-weight:bold;" id="print-nama"></td></tr>
+        <tr><td style="padding:6px 0;color:#555;">Dokter</td><td style="padding:6px 0;font-weight:bold;" id="print-dokter"></td></tr>
+        <tr><td style="padding:6px 0;color:#555;">Poli</td><td style="padding:6px 0;font-weight:bold;" id="print-poli"></td></tr>
+        <tr><td style="padding:6px 0;color:#555;">Tanggal</td><td style="padding:6px 0;font-weight:bold;" id="print-tanggal"></td></tr>
+        <tr><td style="padding:6px 0;color:#555;">Jam</td><td style="padding:6px 0;font-weight:bold;" id="print-jam"></td></tr>
+        <tr><td style="padding:6px 0;color:#555;">Status</td><td style="padding:6px 0;font-weight:bold;" id="print-status"></td></tr>
+    </table>
+    <p style="margin-top:24px;font-size:12px;color:#777;">Tunjukkan kode pendaftaran ini saat datang ke klinik. Cetak pada: <span id="print-tanggal-cetak"></span></p>
+</div>
+
+<div id="app-footer"></div>
+
+<script src="/assets/js/config.js"></script>
+<script src="/assets/js/api.js"></script>
+<script src="/assets/js/components/layout.js"></script>
+<script src="/assets/js/booking.js"></script>
+</body>
+</html>

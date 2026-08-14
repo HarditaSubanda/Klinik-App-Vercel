@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Cek Pendaftaran - Talha Medical Clinic</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        tailwind.config = { theme: { extend: { colors: { k_red: '#B91C1C' } } } }
+    </script>
+</head>
+<body class="bg-gray-50 font-sans">
+
+<div id="app-header"></div>
+
+<div class="container mx-auto px-6 py-10 max-w-xl">
+    <div class="bg-white rounded-xl shadow-xl overflow-hidden">
+        <div class="bg-k_red p-4 text-white text-center">
+            <h2 class="text-2xl font-bold">Cek Pendaftaran</h2>
+        </div>
+
+        <form id="cek-form" class="p-8 space-y-4">
+            <div>
+                <label class="block text-gray-700 font-bold mb-2">Kode Pendaftaran</label>
+                <input type="text" name="kode" required placeholder="KLN-20260812-001"
+                    class="w-full border rounded-lg px-4 py-2 uppercase focus:outline-none focus:border-k_red">
+            </div>
+            <div>
+                <label class="block text-gray-700 font-bold mb-2">Nomor HP/WA</label>
+                <input type="text" name="noHp" required placeholder="08xxxxxxxxxx"
+                    class="w-full border rounded-lg px-4 py-2 focus:outline-none focus:border-k_red">
+            </div>
+            <button type="submit" id="cek-btn" class="w-full bg-k_red text-white font-bold py-3 rounded-lg hover:bg-red-800 transition disabled:opacity-50">
+                Cek Status
+            </button>
+        </form>
+
+        <div id="result-area" class="hidden px-8 pb-8"></div>
+        <div id="empty-message" class="hidden px-8 pb-8 text-center text-gray-600"></div>
+    </div>
+</div>
+
+<div id="app-footer"></div>
+
+<script src="/assets/js/config.js"></script>
+<script src="/assets/js/api.js"></script>
+<script src="/assets/js/components/layout.js"></script>
+<script src="/assets/js/cek-pendaftaran.js"></script>
+</body>
+</html>

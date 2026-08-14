@@ -1,0 +1,29 @@
+{
+  "name": "klinik-backend",
+  "version": "2.0.0",
+  "description": "REST API backend untuk Sistem Informasi Klinik (PostgreSQL + JWT + bcrypt)",
+  "main": "server.js",
+  "type": "commonjs",
+  "scripts": {
+    "start": "node server.js",
+    "dev": "node --watch server.js",
+    "migrate": "node db/migrate.js",
+    "create-admin": "node scripts/createAdmin.js",
+    "seed-doctors": "node scripts/seedDoctors.js"
+  },
+  "keywords": ["klinik", "express", "postgresql", "jwt"],
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "bcryptjs": "^3.0.3",
+    "cors": "^2.8.5",
+    "dotenv": "^17.2.3",
+    "express": "^4.21.2",
+    "express-rate-limit": "^7.5.0",
+    "express-validator": "^7.2.1",
+    "helmet": "^8.0.0",
+    "jsonwebtoken": "^9.0.2",
+    "morgan": "^1.10.0",
+    "pg": "^8.13.1"
+  }
+}
